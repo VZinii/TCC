@@ -1,0 +1,58 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastre-se</title>
+    <link rel="icon" type="image/png" href="{% static 'logo.png' %}">
+
+    <link rel="stylesheet" href="{% static 'css/formularios.css' %}">
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+</head>
+<body>
+    
+    <div class="d-flex align-items-center justify-content-center flex-column vh-100 vw-100 bg-light">
+
+        <img src="{% static 'logo.png' %}" alt="" height="100" width="100">
+
+        <div class="d-flex flex-column align-items-center justify-content-center container">
+            
+            <div class="bg-white p-5 pb-4 rounded-4 border border-4 border-primary-subtle">
+                <form action="{% url 'cadastro' %}" method="POST">{% csrf_token %}
+                    <div class="text-center">
+                        <h2>Cadastro</h2>
+                    </div>
+                    <div class="form-floating my-3">
+                        <input type="email" class="form-control" id="email" placeholder="nome@exemplo.com" name="email">
+                        <label for="email">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="username" class="form-control" id="usuario" placeholder="Usuario" name="usuario">
+                        <label for="usuario" class="form-label">Nome de usuário</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="senha" placeholder="Senha" name="senha">
+                        <label for="senha" class="form-label">Senha</label>
+                    </div>
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn btn-primary mt-3">Cadastrar</button>
+                    </div>
+                </form>
+                <div class="d-flex justify-content-between mt-4">
+                    <p>Já possui conta?</p>
+                    <a href="{% url 'login' %}" class="link-underline link-underline-opacity-0">Fazer Login</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+</body>
+</html>

@@ -8,7 +8,26 @@
 
 {% block conteudo %}
     <div>
-        <h1>Módulos</h1>
-        <img src="{% static 'logo.png' %}" alt="teste" width="100" height="100">
+        <div class="row row-cols-1 row-cols-md-3 g-4">
+            {% for modulo in modulos %}
+                <div class="col">
+                    <div class="card h-100">
+                        <video controls class="card-img-top h-100 thumbnail" poster="media/{{ modulo.thumbnail }}">
+                            <source src="media/{{ modulo.video_explicativo }}" type="video/mp4">
+                        </video>
+                        <div class="card-body">
+                            <h5 class="card-title">Módulo {{ modulo.numero }}: {{ modulo.nome }}</h5>
+                            <p class="card-text">{{ modulo.descricao }}</p>
+                        </div>
+                        <div class="card-footer text-center bg-primary-subtle">
+                            <small class="text-body-secondary">Seu progresso</small>
+                        </div>
+                        <div class="card-footer text-center">
+                            <button class="btn btn-success px-5 {{ modulo.liberado }}">Entrar</button>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
     </div>
 {% endblock %}

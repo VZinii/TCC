@@ -37,6 +37,7 @@ main {
 
 #sidebar {
     position: relative;
+    transition: display 1s ease-in-out !important;
 }
 
 #botao-abrir-interno {
@@ -56,6 +57,10 @@ main {
 .botao-sidebar {
     background-color: #f1f1f1 !important;
     border: solid 2px gray !important;
+}
+
+.thumbnail {
+    object-fit: cover;
 }
 
 /* Configurações para dispositivos com largura menor que 1400 px: */

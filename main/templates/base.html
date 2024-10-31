@@ -23,7 +23,7 @@
 <body>
 
   <main class="overflow-hidden kanit-bold">
-
+    
     <div id="principal" class="row vh-100">
       
       <div id="sidebar" class="col-xxl-3 vh-100 border-end border-2 border-secondary-subtle">
@@ -31,7 +31,7 @@
             <div id="sidebar-head" class="container text-center border-bottom border-secondary-subtle border-3 py-3">
               <a href="#" class="text-decoration-none text-black">
                 <img src="{% static 'logo.png' %}" alt="logo" width="50" height="50">
-                <span id="teste" class="mx-3 fs-1">Sinalizô</span>
+                <span id="teste" class="mx-3 fs-1">Sinalito</span>
               </a>
             </div>
             <div id="sidebar-itens" class="container py-3 overflow-y-scroll ">
@@ -78,7 +78,7 @@
               <img src="https://cdn-icons-png.flaticon.com/128/8367/8367530.png" alt="" width="20" height="20">
             </button>
             <div id="sidebar-footer" class="mt-auto p-3 container border-top border-3 border-secondary-subtle">
-              <a href="#" class="nav-link w-50 p-2 ps-0 rounded-4 text-center">
+              <a href="/auth/logout" class="nav-link w-50 p-2 ps-0 rounded-4 text-center">
                 <img src="https://cdn-icons-png.flaticon.com/128/1176/1176383.png" alt="Configurações" width="25" height="25">
                 <span class="ms-3 vitor-logout text-dark">Logout</span>
               </a>
@@ -90,8 +90,8 @@
         <img src="https://cdn-icons-png.flaticon.com/128/8367/8367530.png" alt="" width="20" height="20">
       </button>
 
-      <div id="conteudo" class="col-xxl-9 vh-100">
-        <div class="container h-100">
+      <div id="conteudo" class="col-xxl-9 p-5 h-100 overflow-y-scroll">
+        <div class="container h-100 overflow-y-scroll">
           
           {% block conteudo %}
           {% endblock %}

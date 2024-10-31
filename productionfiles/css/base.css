@@ -37,7 +37,7 @@ main {
 
 #sidebar {
     position: relative;
-    transition: .6s;
+    transition: display 1s ease-in-out !important;
 }
 
 #botao-abrir-interno {
@@ -59,8 +59,20 @@ main {
     border: solid 2px gray !important;
 }
 
+.thumbnail {
+    object-fit: cover;
+}
+
 /* Configurações para dispositivos com largura menor que 1400 px: */
 @media (max-width: 1399.98px) {
+    #sidebar {
+        display: none;
+    }
+
+    #botao-abrir-externo {
+        display: block !important;
+    }
+
     .nav-item {
         text-align: center;
     }

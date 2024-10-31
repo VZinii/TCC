@@ -1,10 +1,22 @@
 from django.contrib import admin
 from .models import Modulo, Capitulo, Secao, AtividadeVideoFrase
 
-admin.site.register(Modulo)
+class ModuloAdmin(admin.ModelAdmin):
+    list_display = (["nome"])
 
-admin.site.register(Capitulo)
+class CapituloAdmin(admin.ModelAdmin):
+    list_display = (["nome"])
 
-admin.site.register(Secao)
+class SecaoAdmin(admin.ModelAdmin):
+    list_display = (["nome"])
 
-admin.site.register(AtividadeVideoFrase)
+class AtividadeVideoFraseAdmin(admin.ModelAdmin):
+    list_display = (["id"])
+
+admin.site.register(Modulo, ModuloAdmin)
+
+admin.site.register(Capitulo, CapituloAdmin)
+
+admin.site.register(Secao, SecaoAdmin)
+
+admin.site.register(AtividadeVideoFrase, AtividadeVideoFraseAdmin)
