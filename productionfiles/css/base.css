@@ -8,8 +8,8 @@
 
 /* Scrollbar Customized */
 ::-webkit-scrollbar {
-    height: 4px;
-    width: 4px;
+    height: 16px;
+    width: 12px;
 }
 
 ::-webkit-scrollbar-track {
@@ -17,8 +17,8 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: blue;
-    border-radius: 30px;
+    background: #eee;
+    border-radius: 60px;
 }
 
 .active {
@@ -61,10 +61,13 @@ main {
 
 .thumbnail {
     object-fit: cover;
+    width: 300px;
+    height: 300px;
 }
 
 /* Configurações para dispositivos com largura menor que 1400 px: */
 @media (max-width: 1399.98px) {
+
     #sidebar {
         display: none;
     }
@@ -87,6 +90,12 @@ main {
         overflow: hidden;
         clip: rect(0,0,0,0);
         border: 0;
+    }
+
+    .thumbnail {
+        object-fit: cover;
+        width: 100px;
+        height: 130px;
     }
 
 }

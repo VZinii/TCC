@@ -15,3 +15,4 @@ document.getElementById('botao-abrir-externo').addEventListener('click', functio
     document.getElementById('conteudo').classList.toggle('col-xxl-9');
     document.getElementById('botao-abrir-externo').classList.toggle('d-none');
 });
+

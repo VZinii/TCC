@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Módulo {{ modulo.numero }}
+{% endblock %}
+
+{% block conteudo %}
+
+    <h1 class="text-center mb-4">MODULO {{ modulo.numero }}</h1>
+
+    <div class="d-flex overflow-x-scroll">
+        {% for capitulo in capitulos %}
+            <div class="me-5 mb-3">
+                <div class="card h-100">
+                    <video controls class="card-img-top thumbnail" poster="../../media/{{ capitulo.thumbnail }}">
+                        <source src="/media/{{ capitulo.video_explicativo }}" type="video/mp4">
+                    </video>
+                    <div class="card-body">
+                        <h5 class="card-title text-center">Capítulo {{ capitulo.numero }}</h5>
+                        <h6 class="card-title text-center text-info">{{ capitulo.nome }}</h6>
+                        <p class="card-text text-center">{{ capitulo.descricao }}</p>
+                    </div>
+                    <div class="card-footer text-center bg-primary-subtle">
+                        <small class="text-body-secondary">Seu progresso</small>
+                    </div>
+                    <div class="card-footer text-center">
+                        <form action="{% url 'capitulo' capitulo.numero %}">
+                            {% if capitulo.liberado %}
+                                <button class="btn btn-success px-5">Entrar</button>
+                            {% else %}
+                                <button class="btn btn-success px-5 disabled">Entrar</button>
+                            {% endif %}
+                        </form>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}

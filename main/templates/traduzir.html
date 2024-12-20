@@ -1,0 +1,14 @@
+{% extends "baseSecao.html" %}
+
+{% block atividade %}
+
+    <h5 class="text-center texto-tema py-3 fw-bold">O que está sendo dito no vídeo?</h5>
+
+    <form action="{% url 'secao' secao.numero atividade.numero %}" method="POST"> {% csrf_token %}
+        <div class="input-group mb-3">
+            <textarea name="resposta" type="text" class="form-control resposta ms-auto" placeholder="Escreva sua resposta"></textarea>
+            <button class="btn btn-primary cor-tema ms-1 me-auto" type="submit" id="avancar">Avançar</button>
+        </div>
+    </form>
+
+{% endblock %}
