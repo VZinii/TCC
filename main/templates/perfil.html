@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Perfil
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block conteudo %}
+
+    <h1 class="text-center mb-5">Meu perfil</h1>
+
+    <!-- Imagem de Perfil -->
+    <div class="text-center">
+        <img src="{% static 'Avatar.png' %}" alt="avatar" height="128" width="128">
+    </div>
+
+    <!-- Informações de cima -->
+    <div class="row g-3 ">
+        <div class="col text-center">
+            <label for="nomeUsuario">Nome de Usuário</label>
+            <input id="nomeUsuario" type="text" class="form-control text-center" placeholder="{{ usuario.username }}" disabled>
+        </div>
+        <div class="col text-center">
+            <label for="quantidadeDeXP">XP</label>
+            <input id="quantidadeDeXP" type="text" class="form-control text-center" placeholder="{{ usuario.perfil.xp }}" disabled>
+        </div>
+    </div>
+
+    <!-- Informações de baixo -->
+    <div class="container vh-75 mt-4">
+          
+        <form action="{% url 'perfil' %}" class="form-floating" method="POST">{% csrf_token %}
+            
+            <div class="row g-3 h-100">
+                
+                <div class="col h-100">
+                    <div class="form-floating">
+                        <textarea class="form-control" id="bioPerfil" name="bioPerfil" style="height: 220px">{{ usuario.perfil.bio }}</textarea>
+                        <label for="bioPerfil">Bio</label>
+                    </div>
+                </div>
+
+                <div class="col h-100">
+                    <canvas id="graficoNumVolumes"></canvas>
+                </div>
+
+            </div>  
+            
+            <div class="d-flex justify-content-center mt-4">
+                <button type="submit" class="btn btn-primary">Salvar Alterações</button>
+            </div>
+
+        </form>
+    
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    <script>
+        const vrotulos = {{ rotulos|safe }};
+        const vdados = {{ dados|safe }};
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="{% static 'javascript/perfil.js' %}"></script>
+{% endblock %}

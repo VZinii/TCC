@@ -17,7 +17,7 @@
     {% for secao in secoes %}
         {% if secao.ehTeste %}
             <div class="list-group">
-                <a href="#" class="list-group-item list-group-item-action">
+                <form action="{% url 'secao' modulo.numero capitulo.numero secao.numero 1 %}" class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between align-items-center">
                         <h1 class="mt-1 px-5 rounded-5 bg-warning">
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" class="mb-2 bi bi-star-fill" viewBox="0 0 16 16">
@@ -25,27 +25,35 @@
                             </svg>
                         </h1>
                         <span>{{ secao.xp }} XP</span>
+                        <div>
+                            <span>{{ secao.ouro }}</span>
+                            <img src="https://cdn-icons-png.flaticon.com/512/1800/1800205.png" alt="" width="25" height="25">
+                        </div>
                         {% if secao.liberada %}
                             <button class="btn btn-warning px-5 py-2"><h4 class="mt-1">Começar</h4></button>
                         {% else %}
                             <button class="btn btn-warning px-5 py-2 disabled"><h4 class="mt-1">Começar</h4></button>
                         {% endif %}
                     </div>
-                </a>
+                </form>
             </div>
         {% else %}
             <div class="list-group">
-                <a href="{% url 'secao' secao.numero 1 %}" class="list-group-item list-group-item-action">
+                <form action="{% url 'secao' modulo.numero capitulo.numero secao.numero 1 %}" class="list-group-item list-group-item-action">
                     <div class="d-flex w-100 justify-content-between align-items-center">
                         <h1 class="mt-1 px-5 rounded-5 cor-secao ">{{ secao.numero }}</h1>
                         <span>{{ secao.xp }} XP</span>
+                        <div>
+                            <span>{{ secao.ouro }}</span>
+                            <img src="https://cdn-icons-png.flaticon.com/512/1800/1800205.png" alt="" width="25" height="25">
+                        </div>
                         {% if secao.liberada %}
                             <button class="btn px-5 py-2 cor-secao"><h4 class="mt-1">Começar</h4></button>
                         {% else %}
                             <button class="btn px-5 py-2 cor-secao disabled"><h4 class="mt-1">Começar</h4></button>
                         {% endif %}
                     </div>
-                </a>
+                </form>
             </div>
         {% endif %}
     {% endfor %}

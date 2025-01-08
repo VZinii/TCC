@@ -1,29 +1,13 @@
-// const modulos = document.querySelector('.modulos');
+// const botaoEntrar = document.querySelector('.botao_entrar')
 
-// modulos.addEventListener('click', e => {
-//     console.log(e);
+// fetch('./progresso_usuario/').then(response => {
+//     return response.json();
+// }).then( dados => {
+    
+//     const objeto = JSON.parse(dados);
+
+//     console.log(objeto);
+
+// }).catch( error => {
+//     console.log('erro', error);
 // });
-
-const botoes = document.querySelectorAll('.botao-entrar');
-
-botoes.forEach( botao => {
-
-    botao.addEventListener('click', function() {
-
-        //const id_modulo = this.getAttribute('modulo-id');
-
-        // fetch(`/modulo/${id_modulo}/`, {
-        //     method: 'GET',
-        // })
-        // .then(response => {
-        //     if (!response.ok) {
-        //         throw new Error('Erro ao acessar módulo');
-        //     }
-        //     window.location.href = `/modulo/${id_modulo}`;
-        // })
-        // .catch(error => {
-        //     console.error('Erro ao acessar módulo:', error.message);
-        // });
-        
-    });
-});

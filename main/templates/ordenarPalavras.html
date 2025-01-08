@@ -6,7 +6,7 @@
 
     <h5 class="text-center texto-tema py-3 fw-bold">Coloque as palavras em ordem para formar uma frase!</h5>
 
-    <form action="{% url 'secao' secao.numero atividade.numero %}" method="POST"> {% csrf_token %}
+    <form action="{% url 'secao' modulo.numero capitulo.numero secao.numero atividade.numero %}" method="POST"> {% csrf_token %}
         <div class="d-flex flex-row justify-content-center mb-3">
             <div class="d-flex flex-column rounded caixa-resposta border border-2 border-primary-subtle">
                 <div id="palavras" class="p-2 border-2 border-primary-subtle border-bottom">

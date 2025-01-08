@@ -40,37 +40,37 @@
             <div id="sidebar-itens" class="container py-3 overflow-y-scroll ">
               <ul class="nav nav-pills flex-column mb-auto flex-grow-1 gap-2">
                 <li class="nav-item">
-                  <a href="#" class="nav-link active" aria-current="page">
+                  <a href="{% url 'home' %}" class="nav-link" aria-current="page">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185699.png" alt="Aprender" width="50" height="50">
                     <span class="fs-5 ms-3 text-dark">Aprender</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="{% url 'perfil' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185738.png" alt="Perfil" width="50" height="50">
                     <span class="fs-5 ms-3 text-dark">Perfil</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="{% url 'missoes' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185501.png" alt="Missões" width="50" height="50">
                     <span class="fs-5 ms-3 text-dark">Missões</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="{% url 'loja' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/1795/1795912.png" alt="Loja" width="50" height="50">
                     <span class="fs-5 ms-3 text-dark">Loja</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="{% url 'amigos' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185785.png" alt="Amigos" width="50" height="50">
                     <span class="fs-5 ms-3 text-dark">Amigos</span>
                   </a>
                 </li>
                 <li class="nav-item">
-                  <a href="#" class="nav-link">
+                  <a href="{% url 'configuracoes' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/7901/7901735.png" alt="Configurações" width="50" height="50">
                     <span class="fs-5 ms-3 text-dark">Configurações</span>
                   </a>
@@ -94,7 +94,7 @@
       </button>
 
       <div id="conteudo" class="col-xxl-9 px-5 py-3 h-100 overflow-y-scroll">
-        <div class="container h-100 overflow-y-scroll">
+        <div class="container h-100 my-1 overflow-y-scroll">
           
           {% block conteudo %}
           {% endblock %}

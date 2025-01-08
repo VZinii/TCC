@@ -1,0 +1,85 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Amigos
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block conteudo %}
+
+    <h1 class="text-center">Amigos</h1>
+
+    <div class="row row-cols-1 row-cols-md-3 g-4 my-4 overflow-y-scroll">
+        <div class="col">
+          <div class="card h-100 text-center">
+            <div class="container w-50 p-2 pt-4">
+                <img src="https://cdn-icons-png.flaticon.com/512/4202/4202835.png" class="card-img-top" alt="Amigo 1">
+            </div>
+            <div class="card-body">
+              <h5 class="card-title">Jesimar</h5>
+              <p class="card-text">50250XP</p>
+            </div>
+          </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 text-center">
+              <div class="container w-50 p-2 pt-4">
+                  <img src="https://cdn-icons-png.flaticon.com/512/4202/4202850.png" class="card-img-top" alt="Amigo 2">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Gabriela</h5>
+                <p class="card-text">30250XP</p>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 text-center">
+              <div class="container w-50 p-2 pt-4">
+                  <img src="https://cdn-icons-png.flaticon.com/512/9071/9071196.png" class="card-img-top" alt="Amigo 3">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Erica</h5>
+                <p class="card-text">20150XP</p>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 text-center">
+              <div class="container w-50 p-2 pt-4">
+                  <img src="https://cdn-icons-png.flaticon.com/512/11013/11013122.png" class="card-img-top" alt="Amigo 1">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">Juliana</h5>
+                <p class="card-text">30250XP</p>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 text-center">
+              <div class="container w-50 p-2 pt-4">
+                  <img src="https://cdn-icons-png.flaticon.com/512/4202/4202839.png" class="card-img-top" alt="Amigo 1">
+              </div>
+              <div class="card-body">
+                <h5 class="card-title">André</h5>
+                <p class="card-text">20250XP</p>
+              </div>
+            </div>
+        </div>
+        <div class="col">
+            <div class="card h-100 text-center">
+              <div class="container w-50 p-2 pt-4">
+                  <img src="https://cdn-icons-png.flaticon.com/512/25/25400.png" class="card-img-top" alt="Adicionar Amigo">
+              </div>
+              <div class="card-body">
+              <h5 class="card-title">Adicionar Amigo</h5>
+            </div>
+            <button class="btn btn-primary fs-3">+</button>
+        </div>
+    </div>
+
+
+{% endblock %}

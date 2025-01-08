@@ -26,7 +26,7 @@
                         <small class="text-body-secondary">Seu progresso</small>
                     </div>
                     <div class="card-footer text-center">
-                        <form action="{% url 'capitulo' capitulo.numero %}">
+                        <form action="{% url 'capitulo' modulo.numero capitulo.numero %}">
                             {% if capitulo.liberado %}
                                 <button class="btn btn-success px-5">Entrar</button>
                             {% else %}

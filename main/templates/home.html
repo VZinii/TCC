@@ -8,6 +8,15 @@
 
 {% block conteudo %}
     <div>
+        <div id="user-info" class="d-flex justify-content-evenly align-items-center">
+            <h1 class="p-2 text-primary">{{ usuario.username }}</h1>
+            <div class="vidas">
+                {% for vida in vidas %}
+                    <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="32" height="32" alt="Coração" class="m-1 img-small">
+                {% endfor %}   
+            </div>
+            <h1 class="p-2 pt-3 text-info">XP - {{ usuario.perfil.xp }}</h1>
+        </div>
         <div class="row row-cols-1 row-cols-md-3 g-4">
             {% for modulo in modulos %}
                 <div class="col">
@@ -25,7 +34,7 @@
                         <div class="card-footer text-center">
                             <form action="{% url 'modulo' modulo.numero %}">
                                 {% if modulo.liberado %} <!-- Melhorar -->
-                                        <button class="btn btn-success px-5">Entrar</button>
+                                    <button class="btn btn-success px-5">Entrar</button>
                                 {% else %}
                                     <button class="btn btn-success px-5 disabled">Entrar</button>
                                 {% endif %}

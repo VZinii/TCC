@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+
+{% load static %}
+
+{% block titulo %}
+    Perfil
+{% endblock %}
+
+{% block style %}
+{% endblock %}
+
+{% block conteudo %}
+
+    <h1 class="text-center mb-5">Missões</h1>
+    
+    <table class="table table-primary table-striped">
+        <thead class="table-info">
+            <tr>
+            <th scope="col">#</th>
+            <th scope="col">Missão</th>
+            <th scope="col">Prêmio</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Concluir duas seções sem cometer erros</td>
+                <td>500XP</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Adicionar 5 amigos</td>
+                <td>500XP</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td>Praticar por 3 dias seguidos</td>
+                <td>2000XP</td>
+            </tr>
+        </tbody>
+    </table>
+
+{% endblock %}
