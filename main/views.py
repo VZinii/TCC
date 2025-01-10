@@ -168,26 +168,31 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
 
         return redirect('capitulo', id_modulo, id_capitulo)
 
-    # Descobrir uma maneira melhor de organizar isso (Tá muito engessado, herança talvez? Uma busca em SQL usando JOIN?)
-    if id_atividade == 1: # É uma de múltipla escolha
-        atividade = get_object_or_404(AtividadeEscolhaCerta, secao=secao)
+    if id_secao % 3 == 1: # É uma de múltipla escolha
+        atividade = get_object_or_404(AtividadeEscolhaCerta, secao=secao, numero=id_atividade)
         template = "escolhaCerta.html"
-    elif id_atividade == 2:
-        atividade = get_object_or_404(AtividadeVerdadeiroOuFalso, secao=secao)
+    elif id_secao % 3 == 2:
+        atividade = get_object_or_404(AtividadeVerdadeiroOuFalso, secao=secao, numero=id_atividade)
         template = "verdadeiroOuFalso.html"
-    elif id_atividade == 3:
-        atividade = get_object_or_404(AtividadeOrdenarPalavras, secao=secao)
+    elif id_secao % 3 == 0:
+        atividade = get_object_or_404(AtividadeOrdenarPalavras, secao=secao, numero=id_atividade)
         template = "ordenarPalavras.html"
     else:
-        atividade = get_object_or_404(AtividadeVideoFrase, secao=secao)
+        atividade = get_object_or_404(AtividadeVideoFrase, secao=secao, numero=id_atividade)
         template = "traduzir.html"
 
     if request.method == "GET":
 
         palavras = []
         # Se for uma atividade de ordenar palavras, envio um vetor com as palavras para o context:
-        if id_atividade == 3: 
+        if id_secao % 3 == 0: 
             palavras = atividade.palavras.split()
+        
+        # Mostrar a quantidade de vidas durante os exercícios
+        vidas = []
+
+        for i in range(request.user.perfil.vidas):
+            vidas.append('1')
 
         context = {
             'atividade': atividade,
@@ -195,8 +200,9 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
             'secao': secao,
             'modulo': modulo,
             'capitulo': capitulo,
+            'vidas': vidas,
         }
-        
+
         return render(request, template, context)
     
     else:
@@ -207,6 +213,86 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
             id_atividade += 1
 
         return redirect('secao', id_modulo, id_capitulo, id_secao, id_atividade)
+
+def checar(request, id_modulo, id_capitulo, id_secao, id_atividade):
+    
+    # Pegar o módulo atual
+    modulo = get_object_or_404(Modulo, numero=id_modulo)
+
+    # Pegar o capítulo atual desse modulo
+    capitulo = get_object_or_404(Capitulo, numero=id_capitulo, modulo=modulo)
+
+    # Pegar a seção atual desse capítulo
+    secao = get_object_or_404(Secao, numero=id_secao, capitulo=capitulo)
+
+    acertou = False
+
+    if request.method == "POST":
+
+        if id_secao % 3 == 1: # É uma de múltipla escolha
+            atividade = get_object_or_404(AtividadeEscolhaCerta, secao=secao, numero=id_atividade)
+        elif id_secao % 3 == 2:
+            atividade = get_object_or_404(AtividadeVerdadeiroOuFalso, secao=secao, numero=id_atividade)
+        elif id_secao % 3 == 0:
+            atividade = get_object_or_404(AtividadeOrdenarPalavras, secao=secao, numero=id_atividade)
+        else:
+            atividade = get_object_or_404(AtividadeVideoFrase, secao=secao, numero=id_atividade)
+
+        resposta = request.POST.get('resposta').rstrip() # Right Strip === Trims just the right spaces
+
+        if resposta == atividade.resposta:
+            acertou = True
+    
+    return JsonResponse({
+        "acertou": acertou,
+        "id_modulo": modulo.numero, 
+        "id_capitulo": capitulo.numero, 
+        "id_secao": secao.numero, 
+        "id_atividade": atividade.numero,
+        "resposta_correta": atividade.resposta
+    })
+
+def removeVida(request):
+
+    usuario = request.user
+
+    if ( usuario.perfil.vidas > 0 ):
+        usuario.perfil.vidas -= 1
+        usuario.save()
+        status = "sucesso"
+        mensagem = "vida removida"
+    else:
+        status = "erro"
+        mensagem = "jogador sem vida"
+
+    return JsonResponse({"status": status, "mensagem": mensagem})
+
+def obterVidas(request):
+
+    return JsonResponse({"vidas": request.user.perfil.vidas})
+
+def obterOuro(request):
+
+    return JsonResponse({"ouro": request.user.perfil.ouro})
+
+def comprarVida(request):
+
+    usuario = request.user
+    
+    status = "erro"
+
+    if ( usuario.perfil.ouro < 1000 ):
+        mensagem = "usuario não possui ouro suficiente"
+    elif ( usuario.perfil.vidas >= 10 ):
+        mensagem = "usuario atingiu o limite de vidas"
+    else:
+        usuario.perfil.vidas += 1
+        usuario.perfil.ouro -= 1000
+        usuario.save()
+        status = "sucesso"
+        mensagem = "vida comprada com sucesso"
+
+    return JsonResponse({"status": status, "mensagem": mensagem, "vidas": usuario.perfil.vidas})
 
 # Função auxiliar da view de perfil
 def obterPorcentagemProgresso(conjunto):

@@ -6,22 +6,19 @@
 
     <h5 class="text-center texto-tema py-3 fw-bold">{{ atividade.afirmacao }}</h5>
 
-    <form action="{% url 'secao' modulo.numero capitulo.numero secao.numero atividade.numero %}" method="POST"> {% csrf_token %}
-        <div class="d-flex flex-row justify-content-center mb-3">
+    <form class="resposta-form mb-1"> {% csrf_token %}
+        <div class="d-flex flex-row justify-content-center">
             <div class="d-flex flex-column">
                 <input type="radio" class="btn-check" name="resposta" id="verdadeiro" value="V">
                 <label class="btn btn-outline-success mb-1" for="verdadeiro">Verdadeiro</label>
                 <input type="radio" class="btn-check" name="resposta" id="falso" value="F">
                 <label class="btn btn-outline-danger mb-1" for="falso">Falso</label>
             </div>
-            <button class="btn btn-primary cor-tema ms-1" type="submit" id="avancar">Avançar</button>
+            <button class="btn btn-primary cor-tema ms-1" id="avancar">Avançar</button>
         </div>
     </form>
 
 {% endblock %}
 
 {% block script %}
-
-    <script src="{% static '/javascript/verdadeiroOuFalso.js' %}"></script>
-
 {% endblock %}

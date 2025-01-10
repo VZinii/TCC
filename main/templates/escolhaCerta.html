@@ -6,8 +6,8 @@
 
     <h5 class="text-center texto-tema py-3 fw-bold">Escolha a opção correta!</h5>
 
-    <form action="{% url 'secao' modulo.numero capitulo.numero secao.numero atividade.numero %}" method="POST"> {% csrf_token %}
-        <div class="d-flex flex-row justify-content-center mb-3">
+    <form class="resposta-form mb-1">
+        <div class="d-flex flex-row justify-content-center">
             <div class="d-flex flex-column">
                 <input type="radio" class="btn-check" name="resposta" id="opcaoA" value="A">
                 <label class="btn btn-outline-primary mb-1" for="opcaoA">{{ atividade.alternativaA }}</label>
@@ -16,14 +16,8 @@
                 <input type="radio" class="btn-check" name="resposta" id="opcaoC" value="C">
                 <label class="btn btn-outline-primary mb-1" for="opcaoC">{{ atividade.alternativaC }}</label>
             </div>
-            <button class="btn btn-primary cor-tema ms-1" type="submit" id="avancar">Avançar</button>
+            <button class="btn btn-primary cor-tema ms-1" id="avancar">Avançar</button>
         </div>
     </form>
-
-{% endblock %}
-
-{% block script %}
-
-    <script src="{% static '/javascript/escolhaCerta.js' %}"></script>
 
 {% endblock %}
