@@ -1,23 +1,29 @@
 const ctx = document.getElementById('graficoNumVolumes');
 
-let xValues = ["Introdução", "Intermediário", "Avançado"];
-let yValues = [55, 49, 44, 24, 15];
 let barColors = ["green", "blue","yellow"];
 
 new Chart(ctx, {
     type: "bar",
     data: {
-        labels: xValues,
+        labels: vrotulos,
         datasets: [{
             backgroundColor: barColors,
-            data: yValues
+            data: vdados,
         }]
     },
     options: {
-        legend: {display: false},
-        title: {
-            display: true,
-            text: "Progresso de Aprendizagem"
+        plugins: {
+            legend: {display: false},
+            title: {
+                display: true,
+                text: "Progresso de Aprendizagem em %"
+            },
+        },
+        scales: {
+            y: {
+                min: 0,
+                max: 100,
+            }
         }
     }
 });

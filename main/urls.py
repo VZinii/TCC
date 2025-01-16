@@ -15,5 +15,4 @@ urlpatterns = [
     path("missoes/", views.missoes, name='missoes'),
     path("loja/", views.loja, name='loja'),
     path("amigos/", views.amigos, name='amigos'),
-    path("configuracoes/", views.configuracoes, name='configuracoes'),
 ]

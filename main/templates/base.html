@@ -1,7 +1,7 @@
 {% load static %}
 
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html id="base" lang="pt-BR" data-bs-theme="">
 
 <head>
   <meta charset="UTF-8">
@@ -32,7 +32,7 @@
       <div id="sidebar" class="col-xxl-3 vh-100 border-end border-2 border-secondary-subtle">
         <div class="d-flex flex-column container h-100">
             <div id="sidebar-head" class="container text-center border-bottom border-secondary-subtle border-3 py-3">
-              <a href="{% url 'home' %}" class="text-decoration-none text-black">
+              <a href="{% url 'home' %}" class="text-decoration-none text-dark texto">
                 <img src="{% static 'logo.png' %}" alt="logo" width="50" height="50">
                 <span class="mx-3 fs-1">Sinalito</span>
               </a>
@@ -42,55 +42,49 @@
                 <li class="nav-item">
                   <a href="{% url 'home' %}" class="nav-link" aria-current="page">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185699.png" alt="Aprender" width="50" height="50">
-                    <span class="fs-5 ms-3 text-dark">Aprender</span>
+                    <span class="fs-5 ms-3 text-dark texto">Aprender</span>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'perfil' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185738.png" alt="Perfil" width="50" height="50">
-                    <span class="fs-5 ms-3 text-dark">Perfil</span>
+                    <span class="fs-5 ms-3 text-dark texto">Perfil</span>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'missoes' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185501.png" alt="Missões" width="50" height="50">
-                    <span class="fs-5 ms-3 text-dark">Missões</span>
+                    <span class="fs-5 ms-3 text-dark texto">Missões</span>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'loja' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/1795/1795912.png" alt="Loja" width="50" height="50">
-                    <span class="fs-5 ms-3 text-dark">Loja</span>
+                    <span class="fs-5 ms-3 text-dark texto">Loja</span>
                   </a>
                 </li>
                 <li class="nav-item">
                   <a href="{% url 'amigos' %}" class="nav-link">
                     <img src="https://cdn-icons-png.flaticon.com/128/4185/4185785.png" alt="Amigos" width="50" height="50">
-                    <span class="fs-5 ms-3 text-dark">Amigos</span>
-                  </a>
-                </li>
-                <li class="nav-item">
-                  <a href="{% url 'configuracoes' %}" class="nav-link">
-                    <img src="https://cdn-icons-png.flaticon.com/128/7901/7901735.png" alt="Configurações" width="50" height="50">
-                    <span class="fs-5 ms-3 text-dark">Configurações</span>
+                    <span class="fs-5 ms-3 text-dark texto">Amigos</span>
                   </a>
                 </li>
               </ul>
             </div>
-            <button id="botao-abrir-interno" class="btn btn-primary py-2 d-flex align-items-center botao-sidebar" type="button">
-              <img src="https://cdn-icons-png.flaticon.com/128/8367/8367530.png" alt="" width="20" height="20">
+            <button id="botao-abrir-interno" class="btn py-2 d-flex align-items-center botao-sidebar" type="button">
+              <img src="https://cdn-icons-png.flaticon.com/512/60/60775.png" alt="" width="20" height="20">
             </button>
             <div id="sidebar-footer" class="mt-auto p-3 container border-top border-3 border-secondary-subtle">
               <a href="/auth/logout" class="nav-link w-50 p-2 ps-0 rounded-4 text-center">
                 <img src="https://cdn-icons-png.flaticon.com/128/1176/1176383.png" alt="Configurações" width="25" height="25">
-                <span class="ms-3 vitor-logout text-dark">Logout</span>
+                <span class="ms-3 vitor-logout text-dark texto">Logout</span>
               </a>
             </div>
         </div>
       </div>
       
       <button id="botao-abrir-externo" class="btn btn-primary d-none p-1 botao-sidebar" type="button">
-        <img src="https://cdn-icons-png.flaticon.com/128/8367/8367530.png" alt="" width="20" height="20">
+        <img class="ms-2" src="https://cdn-icons-png.flaticon.com/512/271/271228.png" alt="" width="20" height="20">
       </button>
 
       <div id="conteudo" class="col-xxl-9 px-5 py-3 h-100 overflow-y-scroll">

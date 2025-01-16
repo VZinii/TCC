@@ -8,10 +8,18 @@ from django.forms.models import model_to_dict
 import json
 from django.db.models import OuterRef, Subquery
 
+
 @login_required(login_url="/auth/login")
 def home(request):
 
-    progressos = ProgressoUsuarioModulos.objects.filter(usuario=request.user)
+    progressosNosModulos = obterProgressosModulos(request.user)
+
+    modulos = Modulo.objects.all()
+
+    for i, modulo in enumerate(modulos):
+
+        modulo.progresso = progressosNosModulos[i]
+        modulo.save()
 
     # Fazendo um Join das duas tabelas e criando uma com a tag liberado ou não
     modulos_com_progresso = Modulo.objects.annotate(
@@ -21,27 +29,36 @@ def home(request):
                 modulo=OuterRef('pk')
             ).values('liberado')[:1]
         )
-    ).values('id', 'numero', 'nome', 'descricao', 'video_explicativo', 'thumbnail', 'liberado')
+    ).values('id', 'numero', 'nome', 'descricao', 'video_explicativo', 'thumbnail', 'progresso', 'liberado')
 
-    # Apenas para exibição
-    vidas = []
-
-    for i in range(request.user.perfil.vidas):
-        vidas.append('1')
 
     context = {
         'modulos': modulos_com_progresso,
-        'progressos': progressos,
         'usuario': request.user,
-        'vidas': vidas,
+        'vidas': request.user.perfil.vidas,
     }
 
     return render(request, 'home.html', context)
+
 
 @login_required(login_url="/auth/login")
 def modulo(request, id_modulo):
 
     modulo = get_object_or_404(Modulo, numero=id_modulo)
+
+    progressoNoModulo = ProgressoUsuarioModulos.objects.get(usuario=request.user, modulo=modulo)
+
+    if not(progressoNoModulo.liberado):
+        return redirect('home')
+
+    progressosNosCapitulos = obterProgressosCapitulos(request.user, modulo)
+
+    capitulos = Capitulo.objects.filter(modulo=modulo)
+
+    for i, capitulo in enumerate(capitulos):
+
+        capitulo.progresso = progressosNosCapitulos[i]
+        capitulo.save()
 
     # Fazendo um Join das duas tabelas e criando uma com a tag liberado ou não
     capitulos_com_progresso = Capitulo.objects.filter(modulo=modulo).annotate(
@@ -51,11 +68,13 @@ def modulo(request, id_modulo):
                 capitulo=OuterRef('pk')
             ).values('liberado')[:1]
         )
-    ).values('id', 'numero', 'nome', 'descricao', 'video_explicativo', 'thumbnail', 'liberado')
+    ).values('id', 'numero', 'nome', 'descricao', 'video_explicativo', 'thumbnail', 'progresso', 'liberado')
+
 
     context = {
         'capitulos': capitulos_com_progresso,
         'modulo': modulo,
+        'vidas': request.user.perfil.vidas,
     }
 
     return render(request, 'modulo.html', context)
@@ -68,6 +87,11 @@ def capitulo(request, id_modulo, id_capitulo):
 
     #Pegar o capítulo também
     capitulo = get_object_or_404(Capitulo, numero=id_capitulo, modulo=modulo)
+
+    progressoNoCapitulo = ProgressoUsuarioCapitulos.objects.get(usuario=request.user, capitulo=capitulo)
+
+    if not(progressoNoCapitulo.liberado):
+        return redirect('modulo', modulo.numero)
 
     # Fazendo um Join das tabelas Secao e ProgressoUsuarioSecoes e criando uma nova com o campo Liberada
     secoes_com_progresso = Secao.objects.filter(capitulo=capitulo).annotate(
@@ -83,32 +107,11 @@ def capitulo(request, id_modulo, id_capitulo):
         'secoes': secoes_com_progresso,
         'capitulo': capitulo,
         'modulo': modulo,
+        'vidas': request.user.perfil.vidas,
     }
 
     return render(request, 'capitulo.html', context)
 
-def obterProgresso(id_secao, id_atividade, id_capitulo, id_modulo):
-    # Números que representam o que progresso atual, para melhorar a legibilidade
-    # Eles deverão sofrer alteração caso o conteúdo do curso aumente.
-    # Por exemplo: atualmente o curso tem dois capítulos por módulo, por isso quando
-    # o id_capitulo == 2, o usuário passa de módulo.
-    if id_modulo == 3 and id_capitulo == 2 and id_secao == 3 and id_atividade == 4:
-        return 1 # Significa que acabou o curso
-    elif id_capitulo == 2 and id_secao == 3 and id_atividade == 4:
-        return 2 # Passou de Módulo
-    elif id_secao == 3 and id_atividade == 4:
-        return 3 # Passou de Capítulo
-    elif id_atividade == 4:
-        return 4 # Passou de seção
-    else:
-        return 0
-
-def recebePremio(usuario, secao, proximaParte):
-    # Se a próxima parte estiver sendo liberada pela primeira vez, recebe o prêmio da seção atual:
-    if not(proximaParte.liberado):
-        usuario.perfil.xp += secao.xp
-        usuario.perfil.ouro += secao.ouro
-        usuario.save()
 
 @login_required(login_url="/auth/login")
 def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
@@ -121,6 +124,12 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
 
     # Pegar a seção atual desse capítulo
     secao = get_object_or_404(Secao, numero=id_secao, capitulo=capitulo)
+
+    progressoNaSecao = ProgressoUsuarioSecoes.objects.get(usuario=request.user, secao=secao)
+
+    if not(progressoNaSecao.liberado):
+        return redirect('capitulo', modulo.numero, capitulo.numero)
+
 
     progressoAtual = obterProgresso(id_secao, id_atividade, id_capitulo, id_modulo)
 
@@ -136,8 +145,19 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
         recebePremio(request.user, secao, progressoProximoModulo)
         # Libera o próximo módulo
         progressoProximoModulo.liberado = True
+        # Libera o primeiro capítulo do próximo módulo
+        primeiroCapitulo = Capitulo.objects.get(modulo=proximoModulo, numero=1)
+        progressoPrimeiroCapitulo = ProgressoUsuarioCapitulos.objects.get(usuario=request.user, capitulo=primeiroCapitulo)
+        progressoPrimeiroCapitulo.liberado = True
+        # Libera a primeira seção do primeiro capítulo
+        primeiraSecao = Secao.objects.get(capitulo=primeiroCapitulo, numero=1)
+        progressoPrimeiraSecao = ProgressoUsuarioSecoes.objects.get(usuario=request.user, secao=primeiraSecao)
+        progressoPrimeiraSecao.liberado = True
         # Atualiza o banco de dados
         progressoProximoModulo.save()
+        progressoPrimeiroCapitulo.save()
+        progressoPrimeiraSecao.save()
+
         return redirect('home')
 
     if progressoAtual == 3: # Acabou o Capítulo
@@ -149,8 +169,15 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
         recebePremio(request.user, secao, progressoProximoCapitulo)
         # Libera o próximo capítulo
         progressoProximoCapitulo.liberado = True
+        # Libera a primeira seção do próximo capítulo
+        # Libera a primeira seção do primeiro capítulo
+        primeiraSecao = Secao.objects.get(capitulo=proximoCapitulo, numero=1)
+        progressoPrimeiraSecao = ProgressoUsuarioSecoes.objects.get(usuario=request.user, secao=primeiraSecao)
+        progressoPrimeiraSecao.liberado = True
+
         # Atualizando o Banco de Dados
         progressoProximoCapitulo.save()
+        progressoPrimeiraSecao.save()
 
         return redirect('modulo', id_modulo)
 
@@ -294,21 +321,6 @@ def comprarVida(request):
 
     return JsonResponse({"status": status, "mensagem": mensagem, "vidas": usuario.perfil.vidas})
 
-# Função auxiliar da view de perfil
-def obterPorcentagemProgresso(conjunto):
-
-    if len(conjunto) > 0:
-
-        porcentagem = 0
-
-        for item in conjunto:
-            if item.liberado:
-                porcentagem += 1
-        
-        return round(porcentagem * 100 / len(conjunto))
-
-    return 0
-
 def perfil(request):
 
     if request.method == "GET":
@@ -371,3 +383,114 @@ def configuracoes(request):
     context = {}
 
     return render(request, "configuracoes.html", context)
+
+# Função Auxiliar da view Capítulo
+def obterProgressosCapitulos(usuario, modulo):
+
+    progressos = []
+
+    capitulosDoModulo = Capitulo.objects.filter(modulo=modulo)
+
+    quantidadeItensLiberados = 0
+    totalItens = 0
+    
+    for capitulo in capitulosDoModulo:
+
+        secoesDoCapitulo = Secao.objects.filter(capitulo=capitulo)
+
+        for secao in secoesDoCapitulo:
+
+            progressoDaSecao = ProgressoUsuarioSecoes.objects.get(usuario=usuario, secao=secao)
+
+            if progressoDaSecao.liberado:
+
+                quantidadeItensLiberados += 1
+            
+            totalItens += 1
+        
+        progressos.append(int(100 * quantidadeItensLiberados / totalItens))
+
+        quantidadeItensLiberados = 0
+        totalItens = 0
+
+    return progressos
+
+# Função Auxiliar da view Modulo
+def obterProgressosModulos(usuario):
+
+    progressos = []
+
+    quantidadeItensLiberados = 0
+    totalItens = 0
+
+    modulos = Modulo.objects.all()
+
+    for modulo in modulos:
+
+        capitulosDoModulo = Capitulo.objects.filter(modulo=modulo)
+
+        for capitulo in capitulosDoModulo:
+
+            progressoCapitulo = ProgressoUsuarioCapitulos.objects.get(usuario=usuario, capitulo=capitulo)
+
+            if progressoCapitulo.liberado:
+
+                secoesDoCapitulo = Secao.objects.filter(capitulo=capitulo)
+
+                for secao in secoesDoCapitulo:
+
+                    progressoSecao = ProgressoUsuarioSecoes.objects.get(usuario=usuario, secao=secao)
+
+                    if progressoSecao.liberado:
+
+                        quantidadeItensLiberados += 1
+            
+            # Quantidade de seções por capítulo
+            totalItens += Secao.objects.filter(capitulo=capitulo).count()
+        
+        progressos.append(int(100 * quantidadeItensLiberados / totalItens))
+
+        quantidadeItensLiberados = 0
+        totalItens = 0
+
+    return progressos
+
+# Função Auxiliar da view Seção
+def obterProgresso(id_secao, id_atividade, id_capitulo, id_modulo):
+    # Números que representam o que progresso atual, para melhorar a legibilidade
+    # Eles deverão sofrer alteração caso o conteúdo do curso aumente.
+    # Por exemplo: atualmente o curso tem dois capítulos por módulo, por isso quando
+    # o id_capitulo == 2, o usuário passa de módulo.
+    if id_modulo == 3 and id_capitulo == 2 and id_secao == 3 and id_atividade == 4:
+        return 1 # Significa que acabou o curso
+    elif id_capitulo == 2 and id_secao == 3 and id_atividade == 4:
+        return 2 # Passou de Módulo
+    elif id_secao == 3 and id_atividade == 4:
+        return 3 # Passou de Capítulo
+    elif id_atividade == 4:
+        return 4 # Passou de seção
+    else:
+        return 0
+
+# Função Auxiliar da view Seção
+def recebePremio(usuario, secao, proximaParte):
+    # Se a próxima parte estiver sendo liberada pela primeira vez, recebe o prêmio da seção atual:
+    if not(proximaParte.liberado):
+        usuario.perfil.xp += secao.xp
+        usuario.perfil.ouro += secao.ouro
+        usuario.save()
+
+# Função auxiliar da view de perfil
+def obterPorcentagemProgresso(conjunto):
+
+    if len(conjunto) > 0:
+
+        porcentagem = 0
+
+        for item in conjunto:
+            if item.liberado:
+                porcentagem += 1
+        
+        return round(porcentagem * 100 / len(conjunto))
+
+    return 0

@@ -63,7 +63,7 @@ def criarTabelasProgresso(user):
         capitulos = Capitulo.objects.filter(modulo=modulo)
         for capitulo in capitulos:
 
-            if capitulo.numero == 1:
+            if capitulo.numero == 1 and capitulo.modulo.numero == 1:
                 liberado = True
             else:
                 liberado = False
@@ -75,7 +75,7 @@ def criarTabelasProgresso(user):
             secoes = Secao.objects.filter(capitulo=capitulo)
             for secao in secoes:
 
-                if secao.numero == 1:
+                if secao.numero == 1 and secao.capitulo.numero == 1 and secao.capitulo.modulo.numero == 1:
                     liberado = True
                 else:
                     liberado = False

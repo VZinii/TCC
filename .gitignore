@@ -7,3 +7,9 @@ venv/
 *.jpeg
 
 *.png
+
+main/__pycache__/
+
+main/migrations/
+
+productionfiles/

@@ -12,7 +12,18 @@
 
 {% block conteudo %}
 
-    <h1 class="text-center mb-4 me-5">Capitulo {{ capitulo.numero }}</h1>
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <div class="d-flex align-items-center vidas">
+            <span class="text-danger fs-3 me-2">{{ vidas }}</span>
+            <img src="https://cdn-icons-png.flaticon.com/512/833/833472.png" width="32" height="32" alt="Coração" class="m-1 img-small">
+        </div>
+        <h1 class="text-center mx-auto">Capitulo {{ capitulo.numero }}</h1>
+        <a href="{% url 'modulo' modulo.numero %}">
+            <button type="submit" class="btn btn-primary h-50">
+                <img src="https://cdn-icons-png.flaticon.com/512/2879/2879564.png" alt="" width="20px" height="20px">
+            </button>
+        </a>
+    </div>
 
     {% for secao in secoes %}
         {% if secao.ehTeste %}

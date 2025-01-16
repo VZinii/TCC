@@ -55,7 +55,7 @@ const ativarSideLink = () => {
             item.classList.add('active');
         } else if (url.includes('configuracoes') && item.textContent.includes("Configurações")){
             item.classList.add('active');
-        } else if (url === "http://localhost:8000/" && item.textContent.includes("Aprender")){
+        } else if ( (url === "http://localhost:8000/" || url.includes('modulo')) && item.textContent.includes("Aprender")){
             item.classList.add('active');
         }
 

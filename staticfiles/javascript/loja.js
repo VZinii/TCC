@@ -15,13 +15,7 @@ containerItens.addEventListener('click', e => {
                     atualizarOuroPagina();
                 } else{
 
-                    if ( dados.vidas >= 10 ){ // Atingiu o limite de vidas
-
-                        alert("Você atingiu o limite de vidas");
-
-                    }
-
-                    console.log(dados.mensagem);
+                    alert(dados.mensagem);
                 }
                 
             }).catch(erro => {

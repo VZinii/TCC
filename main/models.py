@@ -29,6 +29,7 @@ class Modulo(models.Model):
     descricao = models.CharField(max_length=255, default="null")
     video_explicativo = models.FileField(upload_to='uploads/videos/modulos', validators = [FileExtensionValidator(allowed_extensions=['mp4'])] )
     thumbnail = models.FileField(upload_to='uploads/thumbnails/modulos', validators = [FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])], null=True, blank=True)
+    progresso = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Módulo {self.numero}"
@@ -40,6 +41,7 @@ class Capitulo(models.Model):
     video_explicativo = models.FileField(upload_to='uploads/videos/capitulos', validators = [FileExtensionValidator(allowed_extensions=['mp4'])] )
     thumbnail = models.FileField(upload_to='uploads/thumbnails/capitulos', validators = [FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])], null=True, blank=True)
     modulo = models.ForeignKey(Modulo, on_delete=models.CASCADE)
+    progresso = models.IntegerField(default=0)
 
     def __str__(self):
         return f"Capítulo {self.numero} - {self.modulo}"

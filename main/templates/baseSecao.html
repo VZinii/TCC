@@ -1,6 +1,6 @@
 {% load static %}
 
-<html lang="en">
+<html id="baseSecao" lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,11 +18,19 @@
             <img src="{% static 'logo.png' %}" alt="logo" width="80" height="80">
         </header>
 
-        <div class="text-center">
-            <video controls class="video p-2 w-100">
-                <source src="/media/{{atividade.video_atividade}}" type="video/mp4">
-            </video>
+        <div class="d-flex justify-content-center">
+            <div class="video-container d-flex justify-content-center">
+                <video id="video" class="video p-2 w-100">
+                    <source src="/media/{{atividade.video_atividade}}" type="video/mp4">
+                </video>    
+                <div class="custom-controls m-0">
+                    <button id="play-pause" class="play-button">
+                        <img src="https://cdn-icons-png.flaticon.com/512/526/526510.png" alt="" width="40" height="40">
+                    </button>
+                </div>
+            </div>
         </div>
+        
 
         {% block atividade %}
         {% endblock %}
