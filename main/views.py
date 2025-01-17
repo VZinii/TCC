@@ -7,6 +7,7 @@ from django.core import serializers
 from django.forms.models import model_to_dict
 import json
 from django.db.models import OuterRef, Subquery
+from .forms import PerfilForm
 
 
 @login_required(login_url="/auth/login")
@@ -243,6 +244,7 @@ def secao(request, id_modulo, id_capitulo, id_secao):
         # Não entra mais aqui
         return redirect('secao', id_modulo, id_capitulo, id_secao)
 
+@login_required(login_url="/auth/login")
 def checar(request, id_modulo, id_capitulo, id_secao):
     
     # Pegar o módulo atual
@@ -284,6 +286,7 @@ def checar(request, id_modulo, id_capitulo, id_secao):
         "resposta_correta": atividade.resposta,
     })
 
+@login_required(login_url="/auth/login")
 def removeVida(request):
 
     usuario = request.user
@@ -299,14 +302,17 @@ def removeVida(request):
 
     return JsonResponse({"status": status, "mensagem": mensagem})
 
+@login_required(login_url="/auth/login")
 def obterVidas(request):
 
     return JsonResponse({"vidas": request.user.perfil.vidas})
 
+@login_required(login_url="/auth/login")
 def obterOuro(request):
 
     return JsonResponse({"ouro": request.user.perfil.ouro})
 
+@login_required(login_url="/auth/login")
 def comprarVida(request):
 
     usuario = request.user
@@ -326,6 +332,7 @@ def comprarVida(request):
 
     return JsonResponse({"status": status, "mensagem": mensagem, "vidas": usuario.perfil.vidas})
 
+@login_required(login_url="/auth/login")
 def perfil(request):
 
     if request.method == "GET":
@@ -362,13 +369,15 @@ def perfil(request):
         usuarioAtual.save()
 
         return redirect('perfil')
-    
+
+@login_required(login_url="/auth/login")
 def missoes(request):
 
     context = {}
 
     return render(request, "missoes.html", context)
 
+@login_required(login_url="/auth/login")
 def loja(request):
 
     context = {
@@ -377,17 +386,29 @@ def loja(request):
 
     return render(request, "loja.html", context)
 
+@login_required(login_url="/auth/login")
 def amigos(request):
 
     context = {}
 
     return render(request, "amigos.html", context)
 
-def configuracoes(request):
+@login_required(login_url="/auth/login")
+def fazerUpload(request):
 
-    context = {}
+    if request.method == "POST":
+        
+        form = PerfilForm(request.POST, request.FILES)
 
-    return render(request, "configuracoes.html", context)
+        if form.is_valid():
+            if request.FILES:
+                usuario = request.user
+                usuario.perfil.foto = request.FILES['foto']
+                usuario.save()
+    else:
+        form = PerfilForm()
+
+    return redirect('perfil')
 
 # Função Auxiliar da view Capítulo
 def obterProgressosCapitulos(usuario, modulo):

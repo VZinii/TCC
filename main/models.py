@@ -11,6 +11,7 @@ class Perfil(models.Model):
     bio = models.TextField(max_length=500, blank=True)
     vidas = models.IntegerField(default=5)
     erros = models.IntegerField(default=0)
+    foto = models.FileField(upload_to='uploads/perfil', validators = [FileExtensionValidator(allowed_extensions=['png', 'jpg', 'jpeg'])], null=True, blank=True)
 
 # Criando sinais para que quando um User do django for criado ou alterado, automaticamente
 # essas alterações sejam refletidas na tabela Perfil 

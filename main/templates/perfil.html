@@ -14,8 +14,17 @@
     <h1 class="text-center mb-5">Meu perfil</h1>
 
     <!-- Imagem de Perfil -->
-    <div class="text-center">
-        <img src="{% static 'Avatar.png' %}" alt="avatar" height="128" width="128">
+    <div class="d-flex justify-content-center">
+        <form action="{% url 'fazerUpload' %}" method="POST" enctype="multipart/form-data" class="d-flex flex-column align-items-center">{% csrf_token %}
+            <img src="/media/{{ usuario.perfil.foto }}" alt="avatar" height="128" width="128">
+            <div class="d-flex justify-content-between align-items-center">
+                <label for="foto" class="btn btn-primary me-2 h-50">Selecionar Imagem</label>
+                <input id="foto" name="foto" type="file" class="d-none"/>
+                <button type="submit" class="btn btn-primary my-3 h-50 d-flex align-items-center justify-content-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/10152/10152134.png" alt="" height="30" width="30">
+                </button>
+            </div>
+        </form>
     </div>
 
     <!-- Informações de cima -->

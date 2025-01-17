@@ -27,3 +27,5 @@ new Chart(ctx, {
         }
     }
 });
+
+// Tentar verificar se o valor do input está preenchido e então mostrar uma mensagem de aviso.
