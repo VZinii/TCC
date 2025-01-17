@@ -52,6 +52,7 @@ class Secao(models.Model):
     ouro = models.IntegerField(default=0)
     capitulo = models.ForeignKey(Capitulo, on_delete=models.CASCADE)
     ehTeste = models.BooleanField(default=False)
+    atividadeAtual = models.IntegerField(default=1)
 
     def __str__(self):
         return f"Seção {self.numero} - {self.capitulo}"

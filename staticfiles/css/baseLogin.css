@@ -1,43 +1,14 @@
-.video {
-    max-width: 500px;
-    border: 1px solid #aaa;
-    border-radius: 2%;
-}
-
-.resposta {
-    max-width: 500px;
-}
-
-.cor-tema {
-    color: black;
-    background: #55bbff;
-}
-
-.cor-tema:hover {
-    color: black;
-    background: #14a0fe;
-}
-
-.texto-tema {
-    color: #14a0fe;
-}
-
-.caixa-resposta {
-    background-color: #ecf5fa !important;
-}
-
-#palavras {
-    min-height: 75px !important;
-}
-
-#resposta {
-    min-height: 75px !important;
+.thumbnail {
+    object-fit: cover;
+    width: 300px;
+    height: 300px;
 }
 
 .video-container {
     position: relative;
     width: 100%;
     max-width: 640px;
+    margin: auto;
 }
 
 #video {

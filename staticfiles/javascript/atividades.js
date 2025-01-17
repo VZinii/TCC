@@ -11,7 +11,8 @@ form.addEventListener('submit', e => {
 
         if ( data.acertou ){
 
-            location.replace(`http://localhost:8000/modulo/${data.id_modulo}/capitulo/${data.id_capitulo}/secao/${data.id_secao}/${data.id_atividade+1}`);
+            // Já atualizei o progresso das atividades da seção no backend, basta reiniciar o frontend
+            location.reload();
 
         } else {
 

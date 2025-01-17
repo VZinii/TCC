@@ -114,7 +114,7 @@ def capitulo(request, id_modulo, id_capitulo):
 
 
 @login_required(login_url="/auth/login")
-def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
+def secao(request, id_modulo, id_capitulo, id_secao):
 
     # Pegar o módulo atual
     modulo = get_object_or_404(Modulo, numero=id_modulo)
@@ -130,8 +130,14 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
     if not(progressoNaSecao.liberado):
         return redirect('capitulo', modulo.numero, capitulo.numero)
 
+    id_atividade = secao.atividadeAtual
 
     progressoAtual = obterProgresso(id_secao, id_atividade, id_capitulo, id_modulo)
+
+    if progressoAtual != 0: # Chegou ao fim de alguma seção
+        # Reseto o progresso da seção atual
+        secao.atividadeAtual = 1
+        secao.save()
 
     if progressoAtual == 1: # Acabou o curso
         return redirect('home')
@@ -234,14 +240,10 @@ def secao(request, id_modulo, id_capitulo, id_secao, id_atividade):
     
     else:
 
-        resposta = request.POST.get('resposta').rstrip() # Right Strip === Trims just the right spaces
+        # Não entra mais aqui
+        return redirect('secao', id_modulo, id_capitulo, id_secao)
 
-        if resposta == atividade.resposta:
-            id_atividade += 1
-
-        return redirect('secao', id_modulo, id_capitulo, id_secao, id_atividade)
-
-def checar(request, id_modulo, id_capitulo, id_secao, id_atividade):
+def checar(request, id_modulo, id_capitulo, id_secao):
     
     # Pegar o módulo atual
     modulo = get_object_or_404(Modulo, numero=id_modulo)
@@ -253,6 +255,8 @@ def checar(request, id_modulo, id_capitulo, id_secao, id_atividade):
     secao = get_object_or_404(Secao, numero=id_secao, capitulo=capitulo)
 
     acertou = False
+
+    id_atividade = secao.atividadeAtual
 
     if request.method == "POST":
 
@@ -268,15 +272,16 @@ def checar(request, id_modulo, id_capitulo, id_secao, id_atividade):
         resposta = request.POST.get('resposta').rstrip() # Right Strip === Trims just the right spaces
 
         if resposta == atividade.resposta:
+            secao.atividadeAtual += 1
+            secao.save()
             acertou = True
     
     return JsonResponse({
         "acertou": acertou,
         "id_modulo": modulo.numero, 
         "id_capitulo": capitulo.numero, 
-        "id_secao": secao.numero, 
-        "id_atividade": atividade.numero,
-        "resposta_correta": atividade.resposta
+        "id_secao": secao.numero,
+        "resposta_correta": atividade.resposta,
     })
 
 def removeVida(request):

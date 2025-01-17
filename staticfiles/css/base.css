@@ -84,8 +84,8 @@ main {
     background: rgba(0, 0, 0, 0.7) no-repeat center;
     background-size: contain;
     border: none;
-    width: 80px;
-    height: 80px;
+    width: 60px;
+    height: 60px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;

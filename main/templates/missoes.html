@@ -12,32 +12,28 @@
 {% block conteudo %}
 
     <h1 class="text-center mb-5">Missões</h1>
-    
-    <table class="table table-primary table-striped">
-        <thead class="table-info">
-            <tr>
-            <th scope="col">#</th>
-            <th scope="col">Missão</th>
-            <th scope="col">Prêmio</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>Concluir duas seções sem cometer erros</td>
-                <td>500XP</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>Adicionar 5 amigos</td>
-                <td>500XP</td>
-            </tr>
-            <tr>
-                <th scope="row">3</th>
-                <td>Praticar por 3 dias seguidos</td>
-                <td>2000XP</td>
-            </tr>
-        </tbody>
-    </table>
+
+    <ul class="list-group bg-secondary">
+        <li class="list-group-item d-flex justify-content-between list-group-item-secondary">
+            <h5 class="text-primary">#</h5 class="text-primary"> <!-- Número da missão -->
+            <h5 class="text-primary">Missão</h5 class="text-primary"> <!-- Missão -->
+            <h5 class="text-primary">Prêmio</h5 class="text-primary"> <!-- Prêmio da missão -->
+        </li>
+        <li class="list-group-item list-group-item-action d-flex justify-content-between list-group-item-light">
+            <span class="text-danger">1</span> <!-- Número da missão -->
+            <span class="text-success">Concluir duas seções sem cometer erros</span> <!-- Missão -->
+            <span class="text-info">500XP</span> <!-- Prêmio da missão -->
+        </li>
+        <li class="list-group-item list-group-item-action d-flex justify-content-between list-group-item-light">
+            <span class="text-danger">2</span> <!-- Número da missão -->
+            <span class="text-success">Adicionar 5 amigos</span> <!-- Missão -->
+            <span class="text-info">500XP</span> <!-- Prêmio da missão -->
+        </li>
+        <li class="list-group-item list-group-item-action d-flex justify-content-between list-group-item-light">
+            <span class="text-danger">3</span> <!-- Número da missão -->
+            <span class="text-success">Praticar por 3 dias seguidos</span> <!-- Missão -->
+            <span class="text-info">2000XP</span> <!-- Prêmio da missão -->
+        </li>
+    </ul>
 
 {% endblock %}
